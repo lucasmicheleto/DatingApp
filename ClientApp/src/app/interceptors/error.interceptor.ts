@@ -22,12 +22,12 @@ export class ErrorInterceptor implements HttpInterceptor {
           switch(error.status){
             case 400:
               if(error.error.errors){
-                const errors = [];
+                let errorsM = [];
                 for( const key in error.error.errors ){
                   if (error.error.errors[key]){
-                    errors.push(error.error.errors[key]);
+                    errorsM.push(error.error.errors[key]);
                   }
-                  throw errors;
+                  throw errorsM[0];
                 }
               }else {
                 this.toastr.error(error.error, error.statusText);

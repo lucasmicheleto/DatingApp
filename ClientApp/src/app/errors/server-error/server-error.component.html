@@ -1,0 +1,17 @@
+<h4>Internal server error - Refresh this page and error will disaper.</h4>
+<ng-container *ngIf="error">
+    <h6 class="text-danger">Error {{ error.message }}</h6>
+    <p class="font-weight-bold">If you are seeing this, Angular is problably not the problem.</p>
+    <p>What to do next?</p>
+    <ul>
+        <li>Open Dev Tools &lt;F12&gt;</li>
+    </ul>
+    <p class="font-weight-bold">Following is the stack trace:</p>
+    <div class="card bg-light">
+        <div class="card-body">
+        <code class="">
+            {{ error.details }}
+        </code>
+    </div>
+    </div>
+</ng-container>
