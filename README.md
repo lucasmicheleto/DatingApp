@@ -12,3 +12,7 @@ This projects are made using this technologies:
 - Angular 
 - Sql Server
 - Entity Framework
+
+---
+
+Next I plan to create a similar funcionality, but using Blazor when .NET 8 realeses.
