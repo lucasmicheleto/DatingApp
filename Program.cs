@@ -38,5 +38,15 @@ app.MapControllerRoute(
     pattern: "{controller}/{action=Index}/{id?}");
 
 app.MapFallbackToFile("index.html");
-
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+try
+{
+    var context = services.GetRequiredService<DataContext>();
+    await Seed.SeedUsers(context);
+}
+catch (System.Exception)
+{
+    
+}
 app.Run();
