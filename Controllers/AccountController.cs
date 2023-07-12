@@ -1,18 +1,18 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using DatingApp.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp;
 
 public class AccountController: BaseApiController
 {
-    private readonly DataContext _context;
+    private readonly IUserRepository _userRepository;
     private readonly ITokenService _tokenService;
 
-    public AccountController(DataContext context, ITokenService tokenService)
+    public AccountController(IUserRepository repo, ITokenService tokenService)
     {
-        _context = context;
+        _userRepository = repo;
         _tokenService = tokenService;
     }
 
@@ -30,10 +30,10 @@ public class AccountController: BaseApiController
             UserName = register.Username.ToLower(),
             PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(register.Password)),
             PasswordSalt = hmac.Key
-        }; 
+        };
 
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync();
+        _userRepository.Add(user);
+        await _userRepository.SaveAllAsync();
 
         return Ok(new UserDTO() 
         {
@@ -45,7 +45,7 @@ public class AccountController: BaseApiController
     [HttpPost("login")]
     public async Task<ActionResult<UserDTO>> Login(RegisterDTO login)
     {
-        var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == login.Username);
+        var user = await _userRepository.GetUserByName(login.Username);
         if (user == null)
             return Unauthorized();
         using var hmac = new HMACSHA512(user.PasswordSalt);
@@ -71,8 +71,9 @@ public class AccountController: BaseApiController
             Token = _tokenService.CreateToken(user),
         });
     }
+
     private async Task<bool> UserExists(string username)
     {
-        return await _context.Users.AnyAsync(u => u.UserName.ToLower() == username.ToLower());
+        return await _userRepository.GetUserByName(username.ToLower()) != null;
     }
 }

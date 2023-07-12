@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using DatingApp.Data.Repositories;
+using DatingApp.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -9,9 +11,14 @@ public static class ServicesExtension
 {
     public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration config)
     {
-        services.AddControllersWithViews();
+        services.AddControllersWithViews()
+            .AddJsonOptions(options =>
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
+            );
+
         services.AddDbContext<DataContext>(opt => opt.UseSqlServer(config.GetConnectionString("Default")));
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IUserRepository, UserRepository>();
         return services;
     }
 
