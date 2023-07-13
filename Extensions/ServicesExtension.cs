@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using DatingApp.Data.Repositories;
+using DatingApp.Helpers;
 using DatingApp.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,7 @@ public static class ServicesExtension
         services.AddDbContext<DataContext>(opt => opt.UseSqlServer(config.GetConnectionString("Default")));
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         return services;
     }
 

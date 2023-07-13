@@ -1,4 +1,7 @@
-﻿using DatingApp.Interfaces;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using DatingApp.DTO;
+using DatingApp.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.Data.Repositories
@@ -6,15 +9,27 @@ namespace DatingApp.Data.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly DataContext _context;
+        private readonly IMapper _mapper;
 
-        public UserRepository(DataContext context)
+        public UserRepository(DataContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public void Add(AppUser user)
         {
             _context.Users.Add(user);
+        }
+
+        public async Task<MemberDTO> GetMemberByName(string name)
+        {
+            return await _context.Users.Where(u => u.UserName == name).ProjectTo<MemberDTO>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<MemberDTO>> GetMembersAsync()
+        {
+            return await _context.Users.ProjectTo<MemberDTO>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
         public async Task<AppUser> GetUserByIdAsync(int id)
@@ -25,7 +40,7 @@ namespace DatingApp.Data.Repositories
 
         public async Task<AppUser> GetUserByName(string name)
         {
-            return await _context.Users.Include(u => u.Photos).FirstOrDefaultAsync(u => u.UserName == name);
+            return await _context.Users.Include(u => u.Photos).SingleOrDefaultAsync(u => u.UserName == name);
         }
 
         public async Task<IEnumerable<AppUser>> GetUsersAsync()

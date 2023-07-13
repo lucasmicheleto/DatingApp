@@ -1,4 +1,6 @@
 ﻿using System;
+using DatingApp.DTO;
+
 namespace DatingApp.Interfaces
 {
 	public interface IUserRepository
@@ -9,5 +11,7 @@ namespace DatingApp.Interfaces
 		Task<IEnumerable<AppUser>> GetUsersAsync();
 		Task<AppUser> GetUserByIdAsync(int id);
 		Task<AppUser> GetUserByName(string name);
-	}
+        Task<IEnumerable<MemberDTO>> GetMembersAsync();
+        Task<MemberDTO> GetMemberByName(string name);
+    }
 }
