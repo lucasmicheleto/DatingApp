@@ -2,19 +2,35 @@
 
 <p>This component demonstrates fetching data from the server.</p>
 
-<p *ngIf="!users?.length"><em>Loading...</em></p>
+<p *ngIf="!members?.length"><em>Loading...</em></p>
 
-<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="users.length">
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Name</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of users">
-      <td>{{ user.id }}</td>
-      <td>{{ user.userName }}</td>
-    </tr>
-  </tbody>
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="members.length">
+  <tr>
+    <th>Photo</th>
+    <th>Id</th>
+    <th>Known As</th>
+    <th>Username</th>
+    <th>Age</th>
+    <th>Created</th>
+    <th>Last Active</th>
+    <th>Introduction</th>
+    <th>Looking For</th>
+    <th>Interests</th>
+    <th>City</th>
+    <th>Country</th>
+  </tr>
+  <tr *ngFor="let member of members">
+    <td><img [src]="member.photoUrl" alt="Member Photo"></td>
+    <td>{{member.id}}</td>
+    <td>{{member.knownAs}}</td>
+    <td>{{member.userName}}</td>
+    <td>{{member.age}}</td>
+    <td>{{member.created | date:'dd/MM/yy HH:mm'}}</td>
+    <td>{{member.lastActive | date:'dd/MM/yy HH:mm'}}</td>
+    <td class="text-wrap">{{member.introduction}}</td>
+    <td class="text-wrap">{{member.lookingFor}}</td>
+    <td class="text-wrap">{{member.interests}}</td>
+    <td>{{member.city}}</td>
+    <td>{{member.country}}</td>
+  </tr>
 </table>

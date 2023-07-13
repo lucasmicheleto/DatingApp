@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, map } from 'rxjs';
 import { Router } from '@angular/router';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -44,9 +45,4 @@ export class AccountService {
     this.currentUserSource.next(null);
     this.router.navigate(["/"]);
   }
-}
-
-export interface User{
-  username: string;
-  token: string;
 }

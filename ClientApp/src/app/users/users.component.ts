@@ -1,5 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Member } from '../members/member';
+import { MembersService } from '../services/members.service';
 
 @Component({
   selector: 'app-users',
@@ -7,17 +9,11 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent {
-  public users: User[] = [];
+  public members: Member[] = [];
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<User[]>(baseUrl + 'api/users').subscribe({
-      next: (res: User[]) => this.users = res,
-      error: (e: any) => console.log(e)
+  constructor(private membersService: MembersService) {
+    this.membersService.getMembers().subscribe({
+      next: res => this.members = res
     })
   }
-}
-
-interface User{
-  id: number,
-  userName: string
 }

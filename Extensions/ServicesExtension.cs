@@ -12,10 +12,10 @@ public static class ServicesExtension
 {
     public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration config)
     {
-        services.AddControllersWithViews()
-            .AddJsonOptions(options =>
-                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
-            );
+        services.AddControllersWithViews();
+            // .AddJsonOptions(options =>
+            //     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
+            // );
 
         services.AddDbContext<DataContext>(opt => opt.UseSqlServer(config.GetConnectionString("Default")));
         services.AddScoped<ITokenService, TokenService>();

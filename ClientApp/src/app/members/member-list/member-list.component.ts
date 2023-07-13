@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Member } from '../member';
+import { MembersService } from 'src/app/services/members.service';
 
 @Component({
   selector: 'app-member-list',
@@ -6,5 +8,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./member-list.component.css']
 })
 export class MemberListComponent {
+  public members: Member[] = [];
 
+  constructor(private membersService: MembersService) {
+    this.membersService.getMembers().subscribe({
+      next: res => this.members = res
+    })
+  }
 }
