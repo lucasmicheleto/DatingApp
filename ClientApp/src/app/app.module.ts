@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -22,6 +23,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { MemberCardComponent } from './members/member-card/member-card.component';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,7 @@ import { MemberCardComponent } from './members/member-card/member-card.component
         canActivate: [AuthGuard],
         children: [
           { path: 'members', component: MemberListComponent },
-          { path: 'members/:id', component: MemberDetailComponent },
+          { path: 'members/:username', component: MemberDetailComponent },
           { path: 'lists', component: ListsComponent },
           { path: 'messages', component: MessagesComponent }
         ]
@@ -64,12 +66,14 @@ import { MemberCardComponent } from './members/member-card/member-card.component
     ]),
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
+    TabsModule.forRoot(),
     ToastrModule.forRoot({
       positionClass: "toast-bottom-right",
     })
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

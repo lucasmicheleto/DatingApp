@@ -11,11 +11,11 @@ export class MembersService {
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
   getMembers(){
-    return this.http.get<Member[]>(this.baseUrl + 'api/users', this.getHttpOptions());
+    return this.http.get<Member[]>(this.baseUrl + 'api/users');
   }
 
   getMember(username: string){
-    return this.http.get<Member>(this.baseUrl + 'api/users/'+username, this.getHttpOptions());
+    return this.http.get<Member>(this.baseUrl + 'api/users/'+username);
   }
 
 
