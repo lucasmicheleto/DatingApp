@@ -43,4 +43,7 @@
     border-top: 1px solid #b69595;
     padding: 15px 0;
   }
-  
+
+  .link-active {
+    color: #1b2873;
+  }
