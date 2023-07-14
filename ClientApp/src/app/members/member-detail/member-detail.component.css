@@ -19,3 +19,6 @@
     border-top: none;
     /* background-color: rgb(220, 136, 136); */
 }
+
+.ngx-gallery { display: inline-block; margin-bottom: 20px; }
+
