@@ -18,6 +18,10 @@ export class MembersService {
     return this.http.get<Member>(this.baseUrl + 'api/users/'+username);
   }
 
+  updateMember(member: Member){
+    return this.http.put(this.baseUrl + "api/users", member);
+  }
+
 
   getHttpOptions(){
     var rawUser = localStorage.getItem("user");

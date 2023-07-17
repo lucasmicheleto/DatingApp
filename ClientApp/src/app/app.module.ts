@@ -25,6 +25,8 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { preventUnsavedChangesGuard } from './guards/prevent-unsaved-changes.guard';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
     TestErrorComponent,
     NotFoundComponent,
     ServerErrorComponent,
-    MemberCardComponent
+    MemberCardComponent,
+    MemberEditComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -55,6 +58,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
         children: [
           { path: 'members', component: MemberListComponent },
           { path: 'members/:username', component: MemberDetailComponent },
+          { path: 'member/edit', component: MemberEditComponent, canDeactivate: [preventUnsavedChangesGuard] },
           { path: 'lists', component: ListsComponent },
           { path: 'messages', component: MessagesComponent }
         ]

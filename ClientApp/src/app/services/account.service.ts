@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { User } from '../models/user';
 
@@ -9,7 +9,7 @@ import { User } from '../models/user';
 })
 export class AccountService {
   private currentUserSource = new BehaviorSubject<User | null>(null);
-  currentUser$ = this.currentUserSource.asObservable();
+  currentUser$: Observable<User | null> = this.currentUserSource.asObservable();
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private router: Router) {}
 
   login(model: any){
