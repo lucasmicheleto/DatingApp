@@ -234,3 +234,4 @@ _Pvt_Extensions
 *.pack
 *.pack.old
 **/babel-webpack/*
+appsettings.json
