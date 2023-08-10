@@ -1,7 +1,12 @@
 ﻿using System.Text;
+
+using CloudinaryDotNet;
+
 using DatingApp.Data.Repositories;
 using DatingApp.Helpers;
 using DatingApp.Interfaces;
+using DatingApp.Services;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -21,6 +26,8 @@ public static class ServicesExtension
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        services.Configure<Account>(config.GetSection("CloudinarySettings"));
+        services.AddScoped<IPhotoService, PhotoService>();
         return services;
     }
 
