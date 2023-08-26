@@ -1,0 +1,6 @@
+projectKey=DatingApp
+serverUrl=http://localhost:9000
+serverVersion=10.1.0.73491
+dashboardUrl=http://localhost:9000/dashboard?id=DatingApp
+ceTaskId=AYoyIMTQnO9ZZUSKuPd4
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYoyIMTQnO9ZZUSKuPd4
