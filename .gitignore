@@ -235,3 +235,10 @@ _Pvt_Extensions
 *.pack.old
 **/babel-webpack/*
 appsettings.json
+.sonarqube/conf/Sonar-cs-none.ruleset
+.sonarqube/conf/Sonar-cs.ruleset
+.sonarqube/conf/Sonar-vbnet-none.ruleset
+.sonarqube/conf/Sonar-vbnet.ruleset
+.sonarqube/conf/SonarQubeAnalysisConfig.xml
+.sonarqube/conf/cs/SonarLint.xml
+.sonarqube/conf/vbnet/SonarLint.xml

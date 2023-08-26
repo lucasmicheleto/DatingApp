@@ -8,6 +8,7 @@ using DatingApp.Extensions;
 using DatingApp.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DatingApp;
 
@@ -76,4 +77,28 @@ public class UsersController: BaseApiController
         }
         return BadRequest(photo);
     }
+
+    [HttpPut("set-main-photo/{photoId}")]
+    public async Task<ActionResult> SetMainPhoto([FromRoute]int photoId)
+    {
+        var user = await _userRepository.GetUserByName(User.GetUsername());
+        if (user == null) { return NotFound(); }
+        var photo = user.Photos.FirstOrDefault(p => p.Id == photoId);
+        if (photo == null) { return NotFound(); }    
+        if (photo.IsMain) { return BadRequest("Already main photo"); }
+        var main = user.Photos.FirstOrDefault(p => p.IsMain);
+        if (main != null) { main.IsMain = false; }
+        photo.IsMain = true;
+        if (await _userRepository.SaveAllAsync())
+        {
+            return NoContent();
+        }
+        return BadRequest(photoId);
+    }
+
+    // [HttpDelete("delete-photo/{photoId}")]
+    // public async Task<ActionResult> DeletePhoto([FromRoute]int photoId)
+    // {
+        
+    // }
 }

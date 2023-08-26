@@ -1,9 +1,10 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { Member } from '../member';
+import { Member, Photo } from '../member';
 import { FileUploader } from 'ng2-file-upload';
 import { AccountService } from 'src/app/services/account.service';
 import { take } from 'rxjs';
 import { User } from 'src/app/models/user';
+import { MembersService } from 'src/app/services/members.service';
 
 @Component({
   selector: 'app-photo-editor',
@@ -16,7 +17,7 @@ export class PhotoEditorComponent implements OnInit{
   hasBaseDropZoneOver = false
   user!: User
 
-  constructor(private accountService: AccountService, @Inject('BASE_URL') private baseUrl: string) {
+  constructor(private accountService: AccountService, @Inject('BASE_URL') private baseUrl: string, private memberService: MembersService) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: (user) => {
         if (user) {
@@ -31,6 +32,24 @@ export class PhotoEditorComponent implements OnInit{
 
   fileOverBase(e:any){
     this.hasBaseDropZoneOver = e;
+  }
+
+  setMainPhoto(photo: Photo) {
+    if (!photo) return;
+    if (photo.isMain) return;
+    this.memberService.setMainPhoto(photo.id).subscribe({
+      next: () => { 
+        if (this.user && this.member) {
+          this.user.photoUrl = photo.url;
+          this.accountService.setCurrentUser(this.user);
+          this.member.photoUrl = photo.url;
+          this.member.photos.forEach(p => {
+            if (p.isMain) p.isMain = false;
+            if (p.id === photo.id) p.isMain = true;
+          });          
+        }
+      }
+    })
   }
 
   initializeUploader(){

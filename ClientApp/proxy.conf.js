@@ -8,6 +8,7 @@ const PROXY_CONFIG = [
     context: [
       "/api/users",
       "/api/users/add-photo",
+      "/api/users/set-main-photo",
       "/api/account/login",
       "/api/account/register",
    ],

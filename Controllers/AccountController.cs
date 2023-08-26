@@ -39,6 +39,7 @@ public class AccountController: BaseApiController
         {
             Username = register.Username,
             Token = _tokenService.CreateToken(user),
+            PhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain)?.Url
         });
     }
 
@@ -69,6 +70,7 @@ public class AccountController: BaseApiController
         {
             Username = login.Username,
             Token = _tokenService.CreateToken(user),
+            PhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain)?.Url
         });
     }
 
